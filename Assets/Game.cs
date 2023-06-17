@@ -8,6 +8,8 @@ public class Game : MonoBehaviour
 
     public Square selectedSquare;
 
+    public Piece.EPiece_Color colorTurn;
+
     void Awake()
     {
         instance = this;
@@ -15,7 +17,7 @@ public class Game : MonoBehaviour
 
     void Start()
     {
-        
+        colorTurn = Piece.EPiece_Color.White;
     }
 
     // Update is called once per frame

@@ -18,18 +18,18 @@ public class GameUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        mousePiece.enabled  = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        RenderMousePiece();
+        //RenderMousePiece();
     }
 
     public void RenderMousePiece()
     {
-        mousePiece.transform.position = Input.mousePosition;
+        //mousePiece.transform.position = Input.mousePosition;
 
         if(game.selectedSquare == null)
         {

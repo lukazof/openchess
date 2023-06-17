@@ -8,12 +8,15 @@ public class Board : MonoBehaviour
 
     public GameObject squareObject;
 
+    public Square[] squares;
+
     public Color lightColor = Color.white;
     public Color darkColor = Color.black;
 
     public Sprite pawnSprite, knightSprite, bishopSprite, rookSprite, queenSprite, kingSprite;
-    
-    public string defaultPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+    public string defaultPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
     private void Awake()
     {
         Instance = this;
@@ -22,11 +25,13 @@ public class Board : MonoBehaviour
     {
         GenerateBoard();
         LoadPosition(defaultPosition);
+        GetSquares();
     }
 
+
+    // Will create the physical Board (8x8)
     void GenerateBoard()
     {
-        // Will create the physical Board (8x8)
         for (int x = 1; x <= 8; x++)
         {
             for (int y = 1; y <= 8; y++)
@@ -38,10 +43,15 @@ public class Board : MonoBehaviour
         }
     }
 
-    void Update()
+
+    // Will loop through the Board in search of the Squares
+    private void GetSquares()
     {
-        
+        squares = GetComponentsInChildren<Square>();
     }
+
+
+    // Will load a fen string
     public void LoadPosition(string fen)
     {
         var pieceSymbol = new Dictionary<char, Piece.EPiece_Type>()
@@ -77,7 +87,7 @@ public class Board : MonoBehaviour
                     foreach (Transform child in transform)
                     {
                         Square childSquare = child.GetComponent<Square>();
-                        if(childSquare.transform.position.x == x && childSquare.transform.position.y == y)
+                        if (childSquare.transform.position.x == x && childSquare.transform.position.y == y)
                         {
                             childSquare.GetComponentInChildren<Piece>().ChangePiece(pType, pColor);
                         }
@@ -90,12 +100,6 @@ public class Board : MonoBehaviour
         }
     }
 
-    
 
 }
 
-public struct Move
-{
-    public Square initialSquare;
-    public Square finalSquare;
-}

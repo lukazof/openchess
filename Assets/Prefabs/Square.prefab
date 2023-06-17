@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  coord: 
+  coord: {x: 0, y: 0}
   piece: {fileID: 0}
 --- !u!61 &5446699530106478024
 BoxCollider2D:

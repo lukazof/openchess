@@ -48,7 +48,7 @@ public class Piece : MonoBehaviour
                 pieceSprite.sprite = Board.Instance.queenSprite;
                 break;
             case EPiece_Type.King:
-                pieceSprite.sprite = Board.Instance.knightSprite;
+                pieceSprite.sprite = Board.Instance.kingSprite;
                 break;
             default:
                 break;
@@ -71,7 +71,7 @@ public class Piece : MonoBehaviour
 
     public enum EPiece_Type
     {
-        None, Pawn, Knight, Bishop, Rook, Queen, King
+        None, Pawn, Knight, Bishop, Rook, Queen, King,
     }
 
     public enum EPiece_Color
