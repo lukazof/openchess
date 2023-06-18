@@ -72,12 +72,12 @@ public class Square : MonoBehaviour
     public void SelectSquare()
     {
         Game.instance.selectedSquare = this;
-        print("Selecting Square:" + name);
+        //print("Selecting Square:" + name);
     }
 
     public void UnselectSquare()
     {
-        print("Unselecting Square: " + Game.instance.selectedSquare.name);
+        //print("Unselecting Square: " + Game.instance.selectedSquare.name);
         Game.instance.selectedSquare = null;
     }
 

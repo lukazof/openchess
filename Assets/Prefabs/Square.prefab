@@ -102,6 +102,10 @@ MonoBehaviour:
   index: 0
   coord: {x: 0, y: 0}
   piece: {fileID: 0}
+  numNorth: 0
+  numSouth: 0
+  numWest: 0
+  numEast: 0
 --- !u!61 &5446699530106478024
 BoxCollider2D:
   m_ObjectHideFlags: 0

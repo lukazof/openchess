@@ -65,7 +65,6 @@ public class Engine : MonoBehaviour
         {
             if (final.coord.x == initial.coord.x && final.piece.pieceType == Piece.EPiece_Type.None)
             {
-                print(final.piece.pieceType);
                 return true;
             }
             else if (final.coord.x == initial.coord.x + 1 || final.coord.x == initial.coord.x - 1)
@@ -99,38 +98,8 @@ public class Engine : MonoBehaviour
 
     private bool Rook(Square initial, Square final)
     {
-        foreach (Square currentSquare in Board.Instance.squares)
-        {
-            int xDifference = (int)final.coord.x - (int)initial.coord.x;
-            int yDifference = (int)final.coord.y - (int)initial.coord.y;
+        return SlidingPiece(initial, final);
 
-            bool betweenY = yDifference > 0 ? currentSquare.coord.y > initial.coord.y && currentSquare.coord.y < final.coord.y : currentSquare.coord.y < initial.coord.y && currentSquare.coord.y > final.coord.y;
-            bool betweenX = xDifference > 0 ? currentSquare.coord.x > initial.coord.x && currentSquare.coord.x < final.coord.x : currentSquare.coord.x < initial.coord.x && currentSquare.coord.x > final.coord.x;
-
-            bool vertical = initial.coord.x == final.coord.x;
-            bool horizontal = initial.coord.y == final.coord.y;
-
-            // Moving the Rook vertically
-            if (vertical && betweenY)
-            {
-                if (currentSquare.piece.pieceType != Piece.EPiece_Type.None && currentSquare.coord.x == initial.coord.x)
-                {
-                    print($"Piece blocking at square {currentSquare.coord}");
-                    return false;
-                }
-            }
-
-            if (horizontal && betweenX && currentSquare.coord.y == initial.coord.y)
-            {
-                if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
-                {
-                    print($"Piece blocking at square {currentSquare.coord}");
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 
     public bool Queen(Square initial, Square final)
@@ -156,6 +125,7 @@ public class Engine : MonoBehaviour
                 }
             }
 
+            // Moving the Rook horizontally
             if (horizontal && betweenX && currentSquare.coord.y == initial.coord.y)
             {
                 if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
@@ -169,10 +139,16 @@ public class Engine : MonoBehaviour
         return true;
     }
 
+    private bool Bishop(Square initial, Square final)
+    {
+        return true;
+    }
+
     private bool SlidingPiece(Square initial, Square final)
     {
         foreach (Square currentSquare in Board.Instance.squares)
         {
+            int difference = final.index - initial.index;
             int xDifference = (int)final.coord.x - (int)initial.coord.x;
             int yDifference = (int)final.coord.y - (int)initial.coord.y;
 
@@ -182,7 +158,9 @@ public class Engine : MonoBehaviour
             bool vertical = initial.coord.x == final.coord.x;
             bool horizontal = initial.coord.y == final.coord.y;
 
-            // Moving the Rook vertically
+            bool diagonal = initial.coord.x != final.coord.x && initial.coord.y != final.coord.y;
+
+            // Moving the Piece vertically
             if (vertical && betweenY)
             {
                 if (currentSquare.piece.pieceType != Piece.EPiece_Type.None && currentSquare.coord.x == initial.coord.x)
@@ -192,6 +170,7 @@ public class Engine : MonoBehaviour
                 }
             }
 
+            //Moving the Piece horizontally
             if (horizontal && betweenX && currentSquare.coord.y == initial.coord.y)
             {
                 if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
@@ -200,6 +179,59 @@ public class Engine : MonoBehaviour
                     return false;
                 }
             }
+
+            if ((diagonal && betweenX && betweenY))
+            {
+                // Moving UP RIGHT
+                if (xDifference > 0 && yDifference > 0 && difference % 9 == 0)
+                {
+                    if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
+                    {
+                        if(final.index - currentSquare.index % 9 == 0)
+                        {
+                            return false;
+                        }
+                        
+                    }
+                }
+
+                // Moving DOWN RIGHT
+                if (xDifference > 0 && yDifference < 0 && difference % 7 == 0)
+                {
+                    if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
+                    {
+                        if (final.index - currentSquare.index % 7 == 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                // Moving DOWN LEFT
+                if (xDifference < 0 && yDifference < 0 && difference % 9 == 0)
+                {
+                    if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
+                    {
+                        if (final.index - currentSquare.index % 9 == 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                // Moving UP LEFT
+                if (xDifference < 0 && yDifference > 0 && difference % 7 == 0)
+                {
+                    if (currentSquare.piece.pieceType != Piece.EPiece_Type.None)
+                    {
+                        if (final.index - currentSquare.index % 7 == 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
         }
 
         return true;
